@@ -8,9 +8,9 @@ Sara Kane, JohnNils Olson, Brittany Lindgren
 
 This project is a merch website for an artist, built in React and can be used as a guideline for setting up a React app, 09/10/2020
 
-## Compenent Diagram
+## Component Diagram
 
-![Diagram of Reach Components](./src/images/component-diagram.PNG)
+![Diagram of React Components](./src/images/component-diagram.PNG)
 
 ## Errors / Bugs
 | Message | Cause | Fix |
