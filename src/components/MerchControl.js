@@ -5,6 +5,7 @@ import MerchDetail from './MerchDetail';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditMerch from './EditMerch';
+import Button from 'react-bootstrap/Button';
 
 class MerchControl extends React.Component {
   constructor(props) {
@@ -106,7 +107,7 @@ class MerchControl extends React.Component {
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button>
+        <Button variant='outline-dark' onClick={this.handleClick}>{buttonText}</Button>
       </React.Fragment>
     );
   }

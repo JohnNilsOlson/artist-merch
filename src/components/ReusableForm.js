@@ -1,28 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 function ReusableForm(props) {
   return (
     <React.Fragment>
-      <form onSubmit={props.formSubmissionHandler}>
-        <input 
-          type='text'
-          name='name'
-          placeholder='Name of piece'/>
-        <textarea
-          name='description'
-          placeholder='Short description'/>
-        <input
-          type='text'
-          name='medium'
-          placeholder='What mediums were used'/>
-        <input
-          type='number'
-          name='quantity'
-          min='0'
-          placeholder='How many are in stock'/>
-        <button type='submit'>{props.buttonText}</button>
-      </form>
+      <Form onSubmit={props.formSubmissionHandler}>
+        <Form.Group>
+          <Form.Label>Name of Piece</Form.Label>
+          <Form.Control type='text' placeholder='Enter the name of the piece.' />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Description</Form.Label>
+          <Form.Control type='text' placeholder='Enter a description of the piece.' />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Medium</Form.Label>
+          <Form.Control type='text' placeholder='Enter the medium of the piece.' />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Quantity</Form.Label>
+          <Form.Control type='number' placeholder='Enter the available quantity of the piece.' />
+        </Form.Group>
+        <Button variant='outline-dark' type='submit'>{props.buttonText}</Button>
+      </Form>
     </React.Fragment>
   );
 }
