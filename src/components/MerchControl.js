@@ -26,12 +26,6 @@ class MerchControl extends React.Component {
     }
   }
 
-  //if we click the 'buy' button, we want to setState to update the available quantity
-  //could add button on merch component itself to decrement - button next to each merch item 
-  //would want to stay on same view even though our quantity value will change
-  //take in merch id so we know what merch we're looking at
-  //something like handleChangingSelectedMerch
-
   handleAddingNewMerchToList = (newMerch) => {
     const newMasterMerchList = this.state.masterMerchList.concat(newMerch);
     this.setState({masterMerchList: newMasterMerchList,
