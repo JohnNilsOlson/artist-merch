@@ -4,13 +4,15 @@ import MerchList from './MerchList';
 import MerchDetail from './MerchDetail';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import EditMerch from './EditMerch';
 
 class MerchControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      selectedMerch: null
+      selectedMerch: null,
+      editing: false
     };
   }
 
@@ -47,6 +49,29 @@ class MerchControl extends React.Component {
     this.setState({selectedMerch: selectedMerch});
   }
 
+  handleEditingMerchInList = (merchToEdit) => {
+    const { dispatch } = this.props;
+    const { id, name, description, medium, quantity } = merchToEdit;
+    const action = {
+      type: "ADD_MERCH",
+      id: id,
+      name: name,
+      description: description,
+      medium: medium, 
+      quantity: quantity
+    }
+    dispatch(action);
+    this.setState({
+      editing: false,
+      selectedMerch: null
+    });
+  }
+
+  handleEditClick = () => {
+    console.log("Edit Clicked!")
+    this.setState({editing: true});
+  }
+
   handleDeletingMerch = (id) => {
     const { dispatch } = this.props;
     const action = {
@@ -61,8 +86,11 @@ class MerchControl extends React.Component {
     let currentlyVisibleState = null;
     let buttonText = null;
 
-    if (this.state.selectedMerch != null) {
-      currentlyVisibleState = <MerchDetail merch = { this.state.selectedMerch } onClickingDelete = { this.handleDeletingMerch } />
+    if (this.state.editing) {
+      currentlyVisibleState = <EditMerch merch = { this.state.selectedMerch } onEditMerch = { this.handleEditingMerchInList } />
+      buttonText = "Return to Merch List";
+    } else if (this.state.selectedMerch != null) {
+      currentlyVisibleState = <MerchDetail merch = { this.state.selectedMerch } onClickingDelete = { this.handleDeletingMerch } onClickingEdit = { this.handleEditClick } />
       buttonText = "Return to Merch List";
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <AddMerch onNewMerchCreation={this.handleAddingNewMerchToList}/>
