@@ -2,13 +2,14 @@ import React from 'react';
 import AddMerch from './AddMerch';
 import MerchList from './MerchList';
 import MerchDetail from './MerchDetail';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class MerchControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      masterMerchList: [],
       selectedMerch: null
     };
   }
@@ -27,14 +28,33 @@ class MerchControl extends React.Component {
   }
 
   handleAddingNewMerchToList = (newMerch) => {
-    const newMasterMerchList = this.state.masterMerchList.concat(newMerch);
-    this.setState({masterMerchList: newMasterMerchList,
-      formVisibleOnPage: false});
+    const { dispatch } = this.props;
+    const { id, name, description, medium, quantity } = newMerch;
+    const action = {
+      type: "ADD_MERCH",
+      id: id,
+      name: name,
+      description: description,
+      medium: medium,
+      quantity: quantity,
+    }
+    dispatch(action);
+    this.setState({formVisibleOnPage: false});
   }
 
   handleChangingSelectedMerch = (id) => {
-    const selectedMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
+    const selectedMerch = this.props.masterMerchList[id];
     this.setState({selectedMerch: selectedMerch});
+  }
+
+  handleDeletingMerch = (id) => {
+    const { dispatch } = this.props;
+    const action = {
+      type: "DELETE_MERCH",
+      id: id
+    }
+    dispatch(action);
+    this.setState({selectedMerch: null});
   }
 
   render() {
@@ -42,13 +62,13 @@ class MerchControl extends React.Component {
     let buttonText = null;
 
     if (this.state.selectedMerch != null) {
-      currentlyVisibleState = <MerchDetail merch = { this.state.selectedMerch} />
+      currentlyVisibleState = <MerchDetail merch = { this.state.selectedMerch } onClickingDelete = { this.handleDeletingMerch } />
       buttonText = "Return to Merch List";
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <AddMerch onNewMerchCreation={this.handleAddingNewMerchToList}/>
       buttonText = "Return to Merch List";
     } else {
-      currentlyVisibleState = <MerchList merchList={this.state.masterMerchList} onMerchSelection={this.handleChangingSelectedMerch} />
+      currentlyVisibleState = <MerchList merchList={this.props.masterMerchList} onMerchSelection={this.handleChangingSelectedMerch} />
       buttonText = "Add Merch";
     }
     return (
@@ -58,6 +78,18 @@ class MerchControl extends React.Component {
       </React.Fragment>
     );
   }
+}
+
+const mapStateToProps = state => {
+  return {
+    masterMerchList: state
+  }
+}
+
+MerchControl = connect(mapStateToProps)(MerchControl);
+
+MerchControl.propTypes = {
+  masterMerchList: PropTypes.object
 }
 
 export default MerchControl;

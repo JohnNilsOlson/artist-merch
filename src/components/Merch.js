@@ -19,7 +19,7 @@ Merch.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   medium: PropTypes.string,
-  quantity: PropTypes.number.isRequired,
+  quantity: PropTypes.number,
   id: PropTypes.string,
   whenMerchClicked: PropTypes.func
 };
