@@ -10,7 +10,6 @@ class MerchControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formVisibleOnPage: false,
       selectedMerch: null,
       editing: false
     };
@@ -19,13 +18,15 @@ class MerchControl extends React.Component {
   handleClick = () => {
     if(this.state.selectedMerch != null) {
       this.setState({
-        formVisibleOnPage: false,
-        selectedMerch: null
-      })
+        selectedMerch: null,
+        editing: false
+      });
     } else {
-      this.setState(prevState => ({
-        formVisibleOnPage: !prevState.formVisibleOnPage
-      }));
+      const { dispatch } = this.props;
+      const action = {
+        type: "TOGGLE_FORM"
+      }
+      dispatch(action);
     }
   }
 
@@ -41,7 +42,10 @@ class MerchControl extends React.Component {
       quantity: quantity,
     }
     dispatch(action);
-    this.setState({formVisibleOnPage: false});
+    const action2 = {
+      type: "TOGGLE_FORM"
+    }
+    dispatch(action2);
   }
 
   handleChangingSelectedMerch = (id) => {
@@ -92,7 +96,7 @@ class MerchControl extends React.Component {
     } else if (this.state.selectedMerch != null) {
       currentlyVisibleState = <MerchDetail merch = { this.state.selectedMerch } onClickingDelete = { this.handleDeletingMerch } onClickingEdit = { this.handleEditClick } />
       buttonText = "Return to Merch List";
-    } else if (this.state.formVisibleOnPage) {
+    } else if (this.props.formVisibleOnPage) {
       currentlyVisibleState = <AddMerch onNewMerchCreation={this.handleAddingNewMerchToList}/>
       buttonText = "Return to Merch List";
     } else {
@@ -110,7 +114,8 @@ class MerchControl extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    masterMerchList: state
+    masterMerchList: state.masterMerchList,
+    formVisibleOnPage: state.formVisibleOnPage
   }
 }
 
